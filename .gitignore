@@ -20,6 +20,4 @@
 .latexmk
 *.thm
 latexmkrc
-**/ISMseminar
-**/shrunksubspace
-**/todai
+**/submitted

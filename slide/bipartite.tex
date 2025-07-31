@@ -285,9 +285,8 @@
     \frametitle{有向グラフを用いた増加道探索}
 
     \small
-    \begin{columns}
+    \begin{columns}[T]
     \begin{column}{.7\textwidth}
-
     マッチング$M$に対し，$G$の枝を
     \begin{itemize}
         \item $M$の枝は両向き，
@@ -307,7 +306,7 @@
     \begin{block}{}
         増加道 $\longleftrightarrow$ $D_M$における$U^+$から$U^-$への有向パス
     \end{block}
-    → $O(m+n)$時間で増加道を求められる \hfill {\footnotesize ($m = |E|$, $n = |V|$)}
+    ∴ 幅優先探索により$O(m)$時間で増加道が求められる \\ \hfill {\footnotesize ($m = |E|$)}
     }
     \end{column}
     \begin{column}{.3\textwidth}
@@ -328,6 +327,7 @@
         \node[above=10pt of 1]{$V^+$};
         \node[above=10pt of a]{$V^-$};
         }
+        $D_M$
     \end{column}
     \end{columns}
 \end{frame}
@@ -342,13 +342,13 @@
 
         \tikz{
         \graph[mygraph, grow right=5em]{mybipartite};
-            \onslide<3>{\graph[edges={mypath}]{
+            \onslide<3|handout:0>{\graph[edges={mypath}]{
                 (1) -- (b);
             };}
-            \onslide<4>{\graph[edges={mypath}]{
+            \onslide<4|handout:0>{\graph[edges={mypath}]{
                 {(1),(2)} -- {(a),(b)};
             };}
-            \onslide<5>{\graph[edges={mypath}]{
+            \onslide<5|handout:0>{\graph[edges={mypath}]{
                 {(1),(2),(3),(4)} -- {(a),(b),(f),(e)};
             };}
             \onslide<6>{\graph[edges={mypath}]{
@@ -361,33 +361,33 @@
         \onslide<2->{
         \tikz{
             \graph[mygraph, grow right=5em]{mybipartitedi};
-            \onslide<3>{\graph[edges={mypath}]{
+            \onslide<3|handout:0>{\graph[edges={mypath}]{
                 (1) <-> (b);
             };}
-            \onslide<4>{\graph[edges={mypath}]{
+            \onslide<4|handout:0>{\graph[edges={mypath}]{
                 {(1),(2)} <-> {(a),(b)};
             };}
-            \onslide<5>{\graph[edges={mypath}]{
+            \onslide<5|handout:0>{\graph[edges={mypath}]{
                 {(1),(2),(3),(4)} <-> {(a),(b),(f),(e)};
             };}
             \onslide<6>{\graph[edges={mypath}]{
                 {(1),(2),(3),(4),(5)} <-> {(a),(b),(d),(e),(f)};
             };}
         \begin{scope}[on background layer]
-        \onslide<2>{
+        \onslide<2|handout:0>{
             \node[mysubset, fit=(1) (2) (3) (4) (5) (6), "$U^+$" left ]{} ;
             \node[mysubset, fit=(a) (b) (c) (d) (e) (f), "$U^-$" right]{} ;
         }
-        \onslide<3>{
+        \onslide<3|handout:0>{
             \node[mysubset, fit=(2) (3) (4) (5) (6), "$U^+$" left ]{} ;
             \node[mysubset, fit=(a), "$U^-$" right]{} ;
             \node[mysubset, fit=(c) (d) (e) (f), "$U^-$" right]{} ;
         }
-        \onslide<4>{
+        \onslide<4|handout:0>{
             \node[mysubset, fit=(3) (4) (5) (6), "$U^+$" left ]{} ;
             \node[mysubset, fit=(c) (d) (e) (f), "$U^-$" right]{} ;
         }
-        \onslide<5>{
+        \onslide<5|handout:0>{
             \node[mysubset, fit=(5) (6), "$U^+$" left ]{} ;
             \node[mysubset, fit=(c) (d), "$U^-$" right]{} ;
         }
@@ -417,8 +417,13 @@
     \begin{columns}
     \begin{column}{.7\textwidth}
     \begin{theorem}
-        アルゴリズムが停止したときの$D_M$において，$U^+$から到達可能な頂点全体を$X$とする．
-        $S := V^+ \setminus X$, $T := V^- \cap X$とすると，$(S,T)$は最小頂点被覆．
+        アルゴリズムが停止したときの$D_M$において，$U^+$から到達可能な頂点全体を$X$とする．このとき
+        \setlength{\abovedisplayskip}{5pt}
+        \setlength{\belowdisplayskip}{5pt}
+        \[  
+            S := V^+ \setminus X, \quad T := V^- \cap X
+        \]
+        とすると，$(S,T)$は最小頂点被覆．
     \end{theorem}
 
     \onslide<2->{
@@ -434,7 +439,7 @@
         \centering
         \tikz{
             \graph[mygraph, grow right=5em]{
-            mybipartite;
+            mybipartitedi;
 
             % matching
             {[edges={mypath}] {1,2,3,4,5} <-> {a,b,d,e,f}; }
@@ -564,7 +569,7 @@
         \[
             E_y = \{e = ij \in E : y_i + y_j = w_e \} 
         \]
-        と定める．つまり，$G_y$はタイトな枝のみ残したグラフ．
+        と定める．つまり，$G_y$は$y$に関しタイトな枝のみ残したグラフ．
     \end{definition}
 
     \begin{lemma}
@@ -643,7 +648,7 @@
         y'_i =
         \begin{cases}
             y_i - \eps & (i \in V^+ \cap X) \\
-            y_i + \eps & (i \in V^- \setminus X) \\
+            y_i + \eps & (i \in V^- \cap X) \\
             y_i        & (\text{それ以外})
         \end{cases}
         $
@@ -679,17 +684,19 @@
     \begin{block}{}
         \begin{algorithmic}[1]
             \STATE $y_i := \max_{e \in \delta(i)} w_e$ ($i \in V^+$), $y_j := 0$ ($j \in V^-$)とする．
+            \COMMENT{$y$は自明な$w$被覆}
             \WHILE{\textbf{True}}
-                \STATE $G_y$の（重みなし）最大マッチング$M$を求める．
+                \STATE $G_y$の（重みなし）最大マッチング$M$を求める． 
+                \COMMENT{$O(mn)$時間}
                 \IF{$M$が完全マッチング}
                     \RETURN $M$ 
-                \ELSE
+                    \COMMENT{相補性条件より，$M$は最大重みマッチング}
+                \ELSE[{$w$被覆$y$を更新}]
                     \STATE $X$を$D_M(y)$における$U^+$から到達可能な頂点全体とする．
                     \STATE $\eps := \min\{ y_i + y_j - w_{ij} : i \in V^+ \cap X, j \in V^- \setminus X \}$
                     \STATE $y_i \gets y_i - \eps$ ($i \in V^+ \cap X$), $y_j \gets y_j + \eps$ ($j \in V^- \cap X$)
                 \ENDIF
             \ENDWHILE
-            \RETURN $M$
         \end{algorithmic} 
     \end{block}
 \end{frame}
@@ -700,14 +707,14 @@
     \begin{columns}
     \begin{column}{.20\textwidth}<+->
         \centering
-        \tikz{\graph[mygraph,grow right=5em, branch down=3em]        {mybipartite2; 
-    1 --["{$5$}" above] a;
-    1 --["{$4$}" {above, pos=.3}] b;
-    2 --["{$4$}" {above, pos=.1}] a;
-    2 --["{$2$}" {below, pos=.9}] b;
-    2 --["{$1$}" {above, pos=.99}] c;
-    3 --["{$5$}" {above, pos=.02}] a;
-    3 --["{$2$}" below] c;
+        \tikz{\graph[mygraph,grow right=5em, branch down=3em]{mybipartite2; 
+            1 --["{$5$}" above] a;
+            1 --["{$4$}" {above, pos=.3}] b;
+            2 --["{$4$}" {above, pos=.1}] a;
+            2 --["{$2$}" {below, pos=.9}] b;
+            2 --["{$1$}" {above, pos=.99}] c;
+            3 --["{$5$}" {above, pos=.02}] a;
+            3 --["{$2$}" below] c;
         };}
         \\ $G$
     \end{column}
@@ -820,7 +827,8 @@
         \begin{itemize}
             \item ($\because$) $y$が更新されて$y'$になったとき，$G_y$の最大マッチング$M$は$G_{y'}$でもマッチング．
         \end{itemize}
-        \item よって，$M$は高々$n/2$回更新される．
+        $\longrightarrow$ $M$は高々$n/2$回更新される．
+
         \item また，$|M|$が増えず$y$だけが更新されるとき，$\eps$の定義のminを達成する枝により，到達可能集合$X$が真に拡大する．\\
         $\longrightarrow$ 高々$n$回の$y$の更新後に，$|M|$は増える．
 
