@@ -1,11 +1,9 @@
 \usepackage[utf8]{inputenc}
-\usepackage{bxdpx-beamer} % dvipdfmxなので必要
 
 \usetheme{Boadilla}
 %Beamerフォント設定
 \usefonttheme{professionalfonts}
 \usepackage[T1]{fontenc}
-\usepackage[deluxe,uplatex]{otf} % 日本語多ウェイト化
 \usepackage{mlmodern}  % 太いComputer Modern
 % MLmodernのバグを修正: cf. https://tex.stackexchange.com/questions/646333/size-of-integral-symbol-in-section-header-with-mlmodern
 \DeclareFontFamily{OMX}{mlmex}{}
@@ -19,7 +17,6 @@
 % \setgothicfont[0]{BIZ-UDGothicR.ttc}% BIZ UDゴシックR
 % \setboldgothicfont[0]{BIZ-UDGothicB.ttc}% BIZ UDゴシックB
 \renewcommand{\familydefault}{\sfdefault}  % 英文をサンセリフ体に
-\renewcommand{\kanjifamilydefault}{\gtdefault}  % 日本語をゴシック体に
 \usefonttheme{structurebold} % タイトル部を太字
 \setbeamerfont{alerted text}{series=\bfseries} % Alertを太字
 \setbeamerfont{section in toc}{series=\mdseries} % 目次は太字にしない
@@ -28,26 +25,11 @@
 \setbeamerfont{date}{size=\small}  % 日付文字サイズ
 \usepackage{bxcoloremoji}
 
-% Babel (日本語の場合のみ・英語の場合は不要)
-\uselanguage{japanese}
-\languagepath{japanese}
-\deftranslation[to=japanese]{Theorem}{定理}
-\deftranslation[to=japanese]{Lemma}{補題}
-\deftranslation[to=japanese]{Example}{例}
-\deftranslation[to=japanese]{Examples}{例}
-\deftranslation[to=japanese]{Definition}{定義}
-\deftranslation[to=japanese]{Definitions}{定義}
-\deftranslation[to=japanese]{Problem}{問題}
-\deftranslation[to=japanese]{Solution}{解}
-\deftranslation[to=japanese]{Fact}{事実}
-\deftranslation[to=japanese]{Proof}{証明}
-\deftranslation[to=japanese]{Corollary}{系}
-\setbeamertemplate{theorems}[normal font] %日本語の場合，定理内を斜体にしない
 % overlay-aware proof environment
 \renewenvironment<>{proof}{%
 \par
 \begin{actionenv}#1%
-\structure{(証明)}}
+\structure{(pf)}}
 {\qed\end{actionenv}}
 
 %Beamer色設定
@@ -200,8 +182,8 @@ subgraph I_nm [V={1,2,3}, W={a,b,c}];
 \newcommand{\postit}[1]{\tikz[overlay, remember picture]{\node[draw,anchor=north east, align=center, rectangle, fill=yellow!10, xshift=-1pt, yshift=-1pt] at (current page.north east) {#1};}}
 
 \usepackage{tcolorbox}
-\newtcolorbox{primal}{colback=red!10!white, colframe=red, title=主問題 (P), left=2pt,right=2pt,top=0pt,bottom=0pt}
-\newtcolorbox{dual}{colback=blue!10!white, colframe=blue, title=双対問題 (D), left=2pt,right=2pt,top=0pt,bottom=0pt}
+\newtcolorbox{primal}{colback=red!10!white, colframe=red, title=Primal (P), left=2pt,right=2pt,top=0pt,bottom=0pt}
+\newtcolorbox{dual}{colback=blue!10!white, colframe=blue, title=Dual (D), left=2pt,right=2pt,top=0pt,bottom=0pt}
 
 % visible on
 \usetikzlibrary{overlay-beamer-styles}
